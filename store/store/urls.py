@@ -9,7 +9,6 @@ urlpatterns = [
     path('', index, name='main'),
     path('products/', include( 'products.urls', namespace='products' )),
     path('users/', include('users.urls', namespace='users')),
-
 ]
 
 if settings.DEBUG:
