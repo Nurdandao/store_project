@@ -1,9 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
 
 from users.models import User
-from users.forms import UserLoginForm
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from products.models import Basket
 
 def login(request):
     if request.method == "POST":
@@ -21,4 +22,37 @@ def login(request):
     return render(request, 'users/login.html', context)
 
 def register(request):
-    return render(request, 'users/register.html')
+    if request.method == 'POST':
+        form = UserRegistrationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Congrats! You logged in')
+        return HttpResponseRedirect(reverse('users:login'))
+    else:
+        form = UserRegistrationForm()
+        
+    context = {'form' : form}
+    return render(request, 'users/register.html', context)
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(instance=request.user, data=request.POST, filter=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+        else:
+            print(form.errors)
+    else:
+        form = UserProfileForm(instance=request.user
+            )
+    context = {'title' : 'Store - Profile', 
+               'form': form,
+               'baskets': Basket.objects.all(),
+            }
+    return render(request, 'users/profile.html', context)
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+#9 video 32:54
