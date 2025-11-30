@@ -46,15 +46,19 @@
                             <li>
                                 <a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a>
                             </li>
-                            <li><a class="dropdown-item" href="orders/orders.html">Заказы</a></li>
+                            <li>
+                                <a class="dropdown-item" href="orders/orders.html">Заказы</a>
+                            </li>
                             {% if user.is_superuser or user.is_staff %}
-                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Админ-панель</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'admin:index' %}">Админ-панель</a>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                             {% endif %}
                             <li>
-                                <a class="dropdown-item" href="{% url 'users:logout '%}">
+                                <a class="dropdown-item" href="{% url 'users:logout'%}">
                                     Выйти
                                 </a>
                             </li>
@@ -62,7 +66,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:login' %}">Войти <i class="fas fa-sign-in-alt"></i></a>
+                        <a class="nav-link" href="{% url 'users:login' %}">Войти<i class="fas fa-sign-in-alt"></i></a>
                     </li>
                 {% endif %}
             </ul>
